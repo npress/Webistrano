@@ -1,0 +1,33 @@
+<h2>Allowed IP Addresses</h2>
+
+<fieldset class="fieldset">
+  <legend> <%=h pluralize(AllowedIpAddress.count, 'Allowed IP Address')%> listed</legend>
+
+<table class="sortable">
+  <tr>
+    <th width="34%">Allowed IP Address</th>
+ 
+  </tr>
+  <% for host in @ips %>
+    <tr class="<%= cycle :even, :odd  %>">
+      <td><%= link_to h(host.ip_address), host_path(host) %></td>
+      <% if current_user.admin? %>
+        <td><%= link_to 'Edit', edit_host_path(host) %></td>
+        <td><%= link_to 'Delete', host_path(host), :confirm => 'Are you sure?', :method => :delete %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+
+<% content_for(:breadcrumb) do %>
+  <% breadcrumb_box do %>
+    <%= link_to "Hosts", hosts_path %>
+  <% end %>
+<% end %>
+
+<% if current_user.admin? %>
+  <br />
+  <%= link_to 'New host', new_host_path, :class => 'arrow_link' %>
+<% end %>
+
+</fieldset>

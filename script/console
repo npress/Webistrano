@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+path = File.join(`pwd`.strip,'config','boot')
+require path
+require 'commands/console'
