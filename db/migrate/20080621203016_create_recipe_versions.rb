@@ -12,4 +12,5 @@ class CreateRecipeVersions < ActiveRecord::Migration
   def self.down
     drop_table :recipe_versions
   end
+  
 end

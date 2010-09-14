@@ -1,0 +1,27 @@
+<% flashed_errors(:ip) %>
+
+<% form_for(:ip, :url => allowed_ip_addresses_path) do |f| %>
+  <p>
+    <b>IP Address to be White-Listed</b><br />
+    <%= f.text_field :ip_address, :style => 'width: 330px' %>
+  </p>
+
+  <%= link_to 'Back to Allowed IP Addresses', allowed_ip_addresses_path, :class => 'arrow_link ontheright', :style => 'margin-right: 330px' %>
+
+  <p>
+    <%= submit_tag "Create Allowed IP Address" %>
+  </p>
+<% end %>
+
+<% content_for(:breadcrumb) do %>
+  <% breadcrumb_box do %>
+    <%= link_to "Manage Allowed IP Addresses", allowed_ip_addresses_path, :style => "float:right", :class => "arrow_link" %>
+    <%= link_to "Allowed IP Addresses", allowed_ip_addresses_path %> &gt; 
+    New
+  <% end %>
+<% end %>
+
+<% content_for(:page_title) do %>
+  <% @page_title = "New Allowed IP Address" %>
+  <h2>New Allowed IP Address</h2>
+<% end %>

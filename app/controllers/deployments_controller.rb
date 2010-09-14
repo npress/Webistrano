@@ -102,6 +102,15 @@ class DeploymentsController < ApplicationController
     if current_stage.deployment_possible?
         true
     else
+      if current_stage.deployment_problems.include?(:hosts)&& 
+        current_stage.deployment_problems.size==1 then
+        #check if the recipes assigned to this deployment 
+        if current_stage.recipes.all.map{|n|n.role_needed}.include?(false)
+          #assign all servers to the role of app server
+          render :text=> "You chose a prefabbed recipe."
+        end
+        
+      end
       respond_to do |format|  
         flash[:error] = 'A deployment is currently not possible.'
         format.html { redirect_to project_stage_url(@project, @stage) }

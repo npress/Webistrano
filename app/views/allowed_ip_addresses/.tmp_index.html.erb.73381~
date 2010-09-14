@@ -10,10 +10,10 @@
   </tr>
   <% for host in @ips %>
     <tr class="<%= cycle :even, :odd  %>">
-      <td><%= link_to h(host.ip_address), allowed_ip_address_path(host) %></td>
+      <td><%= link_to h(host.ip_address), host_path(host) %></td>
       <% if current_user.admin? %>
-        <td><%= link_to 'Edit', edit_allowed_ip_address_path(host) %></td>
-        <td><%= link_to 'Delete', allowed_ip_address_path(host), :confirm => 'Are you sure?', :method => :delete %></td>
+        <td><%= link_to 'Edit', edit_host_path(host) %></td>
+        <td><%= link_to 'Delete', host_path(host), :confirm => 'Are you sure?', :method => :delete %></td>
       <% end %>
     </tr>
   <% end %>
@@ -21,13 +21,13 @@
 
 <% content_for(:breadcrumb) do %>
   <% breadcrumb_box do %>
-    <%= link_to "Allowed IP Addresses", allowed_ip_addresses_path %>
+    <%= link_to "Hosts", hosts_path %>
   <% end %>
 <% end %>
 
 <% if current_user.admin? %>
   <br />
-  <%= link_to 'New Allowed IP Address', new_host_path, :class => 'arrow_link' %>
+  <%= link_to 'New host', new_host_path, :class => 'arrow_link' %>
 <% end %>
 
 </fieldset>

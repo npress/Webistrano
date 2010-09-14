@@ -1,0 +1,40 @@
+<div class="special_box">
+  <div class="special_box_top"></div>
+  <div class="special_box_middle host_box"></div>
+  <div class="special_box_bottom"></div>
+</div>
+
+<div class="box">
+  <div class="box_top"></div>
+  <div class="box_middle">
+		<p>
+		  <b>Allowed IP Address:</b>
+		  <%=h @ip.ip_address %>
+		</p>
+		
+		<% if current_user.admin? %>
+  		<br />
+	  	<%= link_to 'Edit Allowed IP Address', edit_allowed_ip_address_path(@ip), :class => 'arrow_link' %> | 
+		  <%= link_to 'Delete', allowed_ip_address_path(@ip), :confirm => 'Are you sure?', :method => :delete, :class => 'arrow_link'  %>
+		<% end %>
+  </div>
+  <div class="box_bottom"></div>
+</div>
+
+<div class="clear"></div>
+<br>
+
+
+
+<% content_for(:breadcrumb) do %>
+  <% breadcrumb_box do %>
+    <%= link_to "Manage Allowed IP Addresses", allowed_ip_address_path, :style => "float:right", :class => "arrow_link" %>
+    <%= link_to "Allowed IP Addresses", allowed_ip_address_path %> &gt; 
+    Host <%= link_to @ip.ip_address, allowed_ip_address_path(@ip) %> 
+  <% end %>
+<% end %>
+
+<% content_for(:page_title) do %>
+  <% @page_title = "Allowed IP Address #{h(@ip.ip_address)}" %>
+  <h2>Allowed IP Address <%=h @ip.ip_address %></h2>
+<% end %>

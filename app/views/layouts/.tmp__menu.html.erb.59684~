@@ -1,4 +1,4 @@
-									 
+
 <%= render(:partial => 'layouts/menu_box', :locals => {
                                              :box_type => 'projects', 
                                              :status => controller_in_use_or(ProjectsController, :open, Project), 
@@ -18,10 +18,5 @@
                                              :box_type => 'users', 
                                              :status => controller_in_use_or(UsersController, :closed, User), 
                                              :path => users_path } )%>
-<% if current_user.admin? %>
-<%= render(:partial => 'layouts/menu_box', :locals => {
-                                             :box_type => 'allowed_ip_addresses', 
-                                             :status => controller_in_use_or(AllowedIpAddressesController, :open, AllowedIpAddress), 
-                                             :path => allowed_ip_addresses_path } )%>
-<% end %>		
+
 

@@ -67,7 +67,7 @@ class Stage < ActiveRecord::Base
     @deployment_problems
   end
   
-  # tells wether a deployment is possible/allowed
+  # tells whether a deployment is possible/allowed
   # by checking that all needed roles are present and some
   # essential variables are set
   def deployment_possible?

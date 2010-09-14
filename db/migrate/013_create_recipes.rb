@@ -6,6 +6,7 @@ class CreateRecipes < ActiveRecord::Migration
       t.column :body, :text
       t.column :created_at, :datetime
       t.column :updated_at, :datetime
+      t.column :role_needed, :boolean, :default=>true
     end
     
     create_table :projects_recipes, :id => false do |t|

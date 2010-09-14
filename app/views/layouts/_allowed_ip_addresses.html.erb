@@ -1,0 +1,25 @@
+<div id="allowed_ip_addresses_open_content" style="<%=h show_if_opened(status) %>">
+  <% if AllowedIpAddress.count > 0 %>
+    <% for host in AllowedIpAddress.find(:all, :order => "ip_address ASC") %>
+      <a href="<%= allowed_ip_address_path(host) %>" class="menu_link <%=h active_link_class(host) %>" title="<%=h host.ip_address %>">
+  	    <div class="menu_link_title">
+  	      <%=h host.ip_address %>
+  	    </div>
+      </a>
+    <% end %>
+  <% else %>
+    <div class="menu_item">No ip address white-listed yet.</div>
+    <a href="<%= new_allowed_ip_address_path %>" class="menu_link  menu_link_create">
+	    <div class="menu_link_title">
+	      New allowed_ip_address
+	    </div>
+	  </a>
+  <% end %>
+</div>
+<div id="allowed_ip_addresses_closed_content" style="<%=h show_if_closed(status) %>">
+  <a href="javascript:open_menu_box('ips')" class="menu_link  menu_link_create">
+	  <div class="menu_link_title">
+	    <%=h pluralize(AllowedIpAddress.count, 'Allowed IP Address')%>
+	  </div>
+  </a>
+</div>  

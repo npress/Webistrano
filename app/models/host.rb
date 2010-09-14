@@ -6,7 +6,7 @@ class Host < ActiveRecord::Base
   validates_presence_of :name
   validates_length_of :name, :maximum => 250
   
-  attr_accessible :name
+  attr_accessible :name, :type
   
   before_validation :strip_whitespace
   

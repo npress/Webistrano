@@ -1,0 +1,28 @@
+<% flashed_errors(:ip) %>
+
+<% form_for(:ip, :url => allowed_ip_address_path(@ip), :html => { :method => :put }) do |f| %>
+  <p>
+    <b>IP Address to White-List</b><br />
+    <%= f.text_field :ip_address, :style => 'width: 330px' %>
+  </p>
+
+  <%= link_to 'Back to Allowed IP Address', allowed_ip_address_path(@ip), :class => 'arrow_link ontheright', :style => 'margin-right: 330px' %>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<% content_for(:breadcrumb) do %>
+  <% breadcrumb_box do %>
+    <%= link_to "Back to Allowed IP Address", allowed_ip_address_path(@ip), :style => "float:right", :class => "arrow_link" %>
+    <%= link_to "Allowed IP Addresses", allowed_ip_address_path %> &gt; 
+    Allowed IP Address <%= link_to @ip.ip_address, allowed_ip_address_path(@ip) %>  &gt; 
+    Edit
+  <% end %>
+<% end %>
+
+<% content_for(:page_title) do %>
+  <% @page_title = "Edit Allowed IP Address #{h(@ip.ip_address)}" %>
+  <h2>Edit host <%=h @ip.ip_address %></h2>
+<% end %>

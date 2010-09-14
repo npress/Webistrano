@@ -18,6 +18,14 @@ before_filter :check_ip_addr
   protect_from_forgery
   
   protected
+  def check_admin
+    if current_user.admin?
+      return
+    else 
+      flash[:error] = "Action not allowed for non-administrative users."
+      redirect_to home_path
+    end
+  end
   def check_ip_addr
     
     if !AllowedIpAddress.all.map{|i|i.ip_address}.include?(request.remote_ip)

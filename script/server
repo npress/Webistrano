@@ -3,9 +3,8 @@
 
 #path = __FILE__.gsub(File.basename(__FILE__),'')
 #path = File.join(`pwd`.strip,path,'..','config','boot')
-
+#require File.dirname(__FILE__) + '/../config/boot'
 path = File.join(`pwd`.strip,'config','boot')
-
 #require '../config/boot'
 require path
 require 'commands/server'
