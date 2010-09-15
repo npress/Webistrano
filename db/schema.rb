@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100914181434) do
+ActiveRecord::Schema.define(:version => 20100915004747) do
 
   create_table "allowed_ip_addresses", :force => true do |t|
     t.string   "ip_address", :null => false
@@ -52,7 +52,11 @@ ActiveRecord::Schema.define(:version => 20100914181434) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "type"
+  end
+
+  create_table "hosts_types", :id => false, :force => true do |t|
+    t.integer "host_id"
+    t.integer "type_id"
   end
 
   create_table "project_configurations", :force => true do |t|
@@ -114,6 +118,12 @@ ActiveRecord::Schema.define(:version => 20100914181434) do
     t.text     "alert_emails"
     t.integer  "locked_by_deployment_id"
     t.integer  "locked",                  :default => 0
+  end
+
+  create_table "types", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
