@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   include ExceptionNotifiable
   include AuthenticatedSystem
   
-before_filter :check_ip_addr
+  before_filter :check_ip_addr
   before_filter CASClient::Frameworks::Rails::Filter if WebistranoConfig[:authentication_method] == :cas
   before_filter :login_from_cookie, :login_required, :ensure_not_disabled
   around_filter :set_timezone
