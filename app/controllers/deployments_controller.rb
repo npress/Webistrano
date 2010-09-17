@@ -102,13 +102,28 @@ class DeploymentsController < ApplicationController
     if current_stage.deployment_possible?
         true
     else
-      if current_stage.deployment_problems.include?(:hosts)&& 
-        current_stage.deployment_problems.size==1 then
+      if (current_stage.deployment_problems.include?(:roles)&& 
+        current_stage.deployment_problems.size==1) then
         #check if the recipes assigned to this deployment 
-        if current_stage.recipes.all.map{|n|n.role_needed}.include?(false)
+        role_necessary=current_stage.recipes.find(:all, :select=>:role_needed)
+        
+        if role_necessary.map{|r|r.role_needed}.include?(false)
           #assign all servers to the role of app server
-          render :text=> "You chose a prefabbed recipe."
-        end
+          #render :text=> "You chose a prefabbed recipe."
+          current_stage.recipes.all.each  do |cmd|
+           s_type = cmd.server_types.find(:all)
+           s_type.each do |t|
+              
+              t.hosts.each do |h|
+                @role = current_stage.roles.build({"no_release"=>"0", "name"=>t.name, "primary"=>"0", "ssh_port"=>"", "no_symlink"=>"0", "host_id"=>h.id})
+                if(!@role.save)
+                  puts "could not save the given role #{t.name} on host #{h.name}"
+                end
+              end
+           end
+         end
+         return true
+         
         
       end
       respond_to do |format|  
@@ -116,6 +131,7 @@ class DeploymentsController < ApplicationController
         format.html { redirect_to project_stage_url(@project, @stage) }
         format.xml  { render :xml => current_stage.deployment_problems.to_xml }
         false
+        end
       end
     end
   end

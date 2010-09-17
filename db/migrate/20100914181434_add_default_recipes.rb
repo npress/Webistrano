@@ -90,18 +90,18 @@ class AddDefaultRecipes < ActiveRecord::Migration
   end
 
   def self.down
-#    Recipe.find_by_name("status").destroy
-#    Recipe.find_by_name("server").destroy
-#    Recipe.find_by_name("serverreport").destroy
-#    Recipe.find_by_name("restartserver").destroy
-#    Recipe.find_by_name("restartwebserver").destroy
-#    Recipe.find_by_name("db").destroy
-#    Recipe.find_by_name("dbbackup").destroy
-#    Recipe.find_by_name("statusslave").destroy
-#    Recipe.find_by_name("startslave").destroy
-#    Recipe.find_by_name("stopslave").destroy
-#    Recipe.find_by_name("fillslave").destroy
-#    Recipe.find_by_name("cdndeploy").destroy
+    Recipe.find_by_name("status").destroy
+    Recipe.find_by_name("server").destroy
+    Recipe.find_by_name("serverreport").destroy
+    Recipe.find_by_name("restartserver").destroy
+    Recipe.find_by_name("restartwebserver").destroy
+    Recipe.find_by_name("db").destroy
+    Recipe.find_by_name("dbbackup").destroy
+    Recipe.find_by_name("statusslave").destroy
+    Recipe.find_by_name("startslave").destroy
+    Recipe.find_by_name("stopslave").destroy
+    Recipe.find_by_name("fillslave").destroy
+    Recipe.find_by_name("cdndeploy").destroy
     
   end
 end

@@ -1,0 +1,18 @@
+/cygdrive/c/workspace/Webistrano/config/../vendor/rails/railties/lib/initializer.rb:386:in `read':Errno::ENOENT: No such file or directory - /cygdrive/c/workspace/Webistrano/config/environments/Stage.first.roles.build(.rb
+>> 
+?> 
+?> 
+?> 
+?> 
+?> 
+?> 
+?> ^C
+>> DD
+NameError: uninitialized constant DD
+	from /cygdrive/c/workspace/Webistrano/vendor/rails/activesupport/lib/active_support/dependencies.rb:443:in `load_missing_constant'
+	from /cygdrive/c/workspace/Webistrano/vendor/rails/activesupport/lib/active_support/dependencies.rb:80:in `const_missing'
+	from /cygdrive/c/workspace/Webistrano/vendor/rails/activesupport/lib/active_support/dependencies.rb:92:in `const_missing'
+	from (irb):8
+>> 
+?> 
+?> exit
