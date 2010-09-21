@@ -26,7 +26,7 @@ Let us go and make our visit.',
   :smtp_delivery_method => :sendmail,
   
   :smtp_settings => {
-    :address  => "exchange.zerolag.com",
+    :address  => "localhost",
     :port  => 25, 
     #:domain  => "exchange.zerolag.com",
     #:user_name  => "nema.press@sleepygiant.com",
@@ -35,10 +35,10 @@ Let us go and make our visit.',
   },
   
   # Sender address for Webistrano emails
-  :webistrano_sender_address => "nema.press@sleepygiant.com",
+  :webistrano_sender_address => "sys_admins@sleepygiant.com",
   
   # Sender and recipient for Webistrano exceptions
-  :exception_recipients => "nema.press@sleepygiant.com",
-  :exception_sender_address => "nema.press@sleepygiant.com"
+  :exception_recipients => "sys_admins@sleepygiant.com",
+  :exception_sender_address => "sys_admins@sleepygiant.com"
 
 }

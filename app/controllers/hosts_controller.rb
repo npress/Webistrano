@@ -17,7 +17,10 @@ class HostsController < ApplicationController
   def show
     @host = Host.find(params[:id])
     @stages = @host.stages.uniq.sort_by{|x| x.project.name}
-
+    @server_types = @host.server_types
+    @recipes = Array.new
+    @server_types.each{|t| @recipes.concat(t.recipes)}
+    @recipes = @recipes.uniq.sort_by{|x| x.name} 
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @host.to_xml }

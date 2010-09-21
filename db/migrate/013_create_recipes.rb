@@ -9,14 +9,11 @@ class CreateRecipes < ActiveRecord::Migration
       t.column :role_needed, :boolean, :default=>true
     end
     
-    create_table :projects_recipes, :id => false do |t|
-      t.column :recipe_id, :integer
-      t.column :project_id, :integer
-    end
+    
   end
 
   def self.down
     drop_table :recipes
-    drop_table :projects_recipes
+    
   end
 end

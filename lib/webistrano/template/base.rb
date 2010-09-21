@@ -2,17 +2,17 @@ module Webistrano
   module Template
     module Base
       CONFIG = {
-        :application => 'your_app_name',
-        :scm => 'subversion',
-        :deploy_via => ':checkout',
-        :scm_username => 'your_SVN_user',
-        :scm_password => 'your_SVN_password',
-        :user => 'deployment_user(SSH login)',
-        :password => 'deployment_user(SSH user) password',
-        :runner => 'user to run as with sudo',
+        :application => 'non_rails_app',
+        :scm => ':none',
+        :deploy_via => ':copy',
+        :scm_username => 'npress',
+        :admin_runner => 'npress',
+        :user => 'npress',
+        :password => 'npress123',
+        :runner => 'npress',
         :use_sudo => 'true',
-        :deploy_to => '/path/to/deployment_base',
-        :repository => 'https://svn.example.com/project/trunk'
+        :deploy_to => '/Users/npress/non_rails_app',
+        :repository => '.'
       }.freeze
       
       DESC = <<-'EOS'

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100916192649) do
+ActiveRecord::Schema.define(:version => 20100921041428) do
 
   create_table "allowed_ip_addresses", :force => true do |t|
     t.string   "ip_address", :null => false

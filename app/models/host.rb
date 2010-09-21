@@ -1,14 +1,14 @@
 class Host < ActiveRecord::Base
   has_many :roles, :dependent => :destroy, :uniq => true
   has_many :stages, :through => :roles, :uniq => true # XXX uniq does not seem to work! You get all stages, even doubles
-  has_many :host_types
+  has_many :host_types, :dependent => :destroy
   has_many :server_types, :through => :host_types
   
   validates_uniqueness_of :name
   validates_presence_of :name
   validates_length_of :name, :maximum => 250
   
-  attr_accessible :name, :type
+  attr_accessible :name
   
   before_validation :strip_whitespace
   after_create :assign_default_server_type

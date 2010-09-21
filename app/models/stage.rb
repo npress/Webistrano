@@ -12,7 +12,7 @@ class Stage < ActiveRecord::Base
   validates_presence_of :project, :name
   validates_inclusion_of :locked, :in => [0,1]
   
-  attr_accessible :name, :alert_emails
+  attr_accessible :name, :alert_emails, :task_error
 
   # fake attr (Hash) that hold info why deployment is not possible
   # (think model.errors lite)
@@ -119,17 +119,28 @@ class Stage < ActiveRecord::Base
   end
   
   # returns a lists of all availabe tasks for this stage
-  def list_tasks
+  def list_tasks 
+    @task_error = nil
     d = Deployment.new
     d.stage = self
     deployer = Webistrano::Deployer.new(d)
     begin
-      deployer.list_tasks.collect { |t| {:name => t.fully_qualified_name, :description => t.description} }.delete_if{|t| t[:name] == 'shell' || t[:name] == 'invoke'}
-    rescue
+      return deployer.list_tasks.collect { |t| {:name => t.fully_qualified_name, :description => t.description} }.delete_if{|t| t[:name] == 'shell' || t[:name] == 'invoke'}
+    rescue Exception => e 
+      RAILS_DEFAULT_LOGGER.error("Problem listing tasks of stage #{id}: #{e} - #{e.backtrace.join("\n")} ")  
+      @task_error = "Problem listing tasks of stage #{id}: #{e}"+ '.'#+ " #{e.backtrace.join("\n")} "
       [{:name => "Error", :description => "Could not load tasks - syntax error in recipe definition?"}]
+      return @task_error
     end
   end
-    
+  
+  def task_error
+    return @task_error
+  end
+  
+  
+  
+  
   def lock
     other_self = self.class.find(self.id, :lock => true)
     other_self.update_attribute(:locked, 1)

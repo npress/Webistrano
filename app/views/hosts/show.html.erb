@@ -35,7 +35,12 @@
   <legend>Stages</legend>
   <%= render(:partial => 'stages')%>
 </fieldset>
-
+<div class="clear"></div>
+<br>
+<fieldset class="fieldset">
+  <legend>Recipes</legend>
+  <%= render(:partial => 'recipes')%>
+</fieldset>
 <% content_for(:breadcrumb) do %>
   <% breadcrumb_box do %>
     <%= link_to "Manage hosts", hosts_path, :style => "float:right", :class => "arrow_link" %>

@@ -1,0 +1,26 @@
+<% if @recipes.empty? %>
+  No recipes specified to run on this host.
+<% else %>
+  <table class="sortable">
+    <tr>
+      <th>Recipe</th>
+      <th>Stage</th>
+      
+    </tr>
+    <% for recipe in @recipes %>
+      <tr class="<%= cycle :even, :odd, :name => 'stages' %>">
+        <td valign="top">
+        	<%=link_to h(recipe.name),  recipe_path(recipe) %>
+            <br />
+        </td>
+		<td valign="top">
+          <% for stage in @stages %>
+            <%=link_to h(stage.name), project_stage_path(stage.project, stage) %>
+            <br />
+          <% end %>
+        </td>
+      </tr>
+	  
+    <% end %>
+	</table>
+<% end %>

@@ -1,6 +1,6 @@
 class Recipe < ActiveRecord::Base
   has_and_belongs_to_many :stages
-  has_many :recipe_types
+  has_many :recipe_types, :dependent => :destroy
   has_many :server_types, :through => :recipe_types
   
   validates_uniqueness_of :name

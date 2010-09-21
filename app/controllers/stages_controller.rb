@@ -14,11 +14,19 @@ class StagesController < ApplicationController
   # GET /projects/1/stages/1.xml
   def show
     @stage = current_project.stages.find(params[:id])
-    @task_list = [['All tasks: ', '']] + @stage.list_tasks.collect{|task| [task[:name], task[:name]]}.sort()
+    task_list = @stage.list_tasks
+    RAILS_DEFAULT_LOGGER.error("task_list is " + task_list.inspect)
 
     respond_to do |format|
-      format.html # show.rhtml
-      format.xml  { render :xml => @stage.to_xml }
+      if @stage.task_error
+        RAILS_DEFAULT_LOGGER.error("task_error is " + @stage.task_error)
+        @task_list = [['Error', '']] 
+        flash[:error] = @stage.task_error
+      else
+        @task_list = [['All tasks: ', '']] + task_list.collect{|task| [task[:name], task[:name]]}.sort()
+      end
+        format.html # show.rhtml
+        format.xml  { render :xml => @stage.to_xml }
     end
   end
 
