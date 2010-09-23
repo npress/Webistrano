@@ -2,7 +2,7 @@ class DeploymentsController < ApplicationController
   
   before_filter :load_stage
   before_filter :ensure_deployment_possible, :only => [:new, :create]
-
+  
   # GET /projects/1/stages/1/deployments
   # GET /projects/1/stages/1/deployments.xml
   def index
@@ -31,7 +31,9 @@ class DeploymentsController < ApplicationController
   def new
     @deployment = @stage.deployments.new
     @deployment.task = params[:task]
-    
+    #if the recipe selected for deployment has a server_type that has no roles
+    #propage roles
+    propagate_roles_needed(@deployment.task)
     if params[:repeat]
       @original = @stage.deployments.find(params[:repeat])
       @deployment = @original.repeat
@@ -98,13 +100,56 @@ class DeploymentsController < ApplicationController
   end
   
   protected
+  #propagate_roles_needed takes a task_name that defines the recipe
+  #the deployment will execute
+  def propagate_roles_needed(task_name) 
+    
+    #All recipes besides server have the same name in their body; thus task_name usually is
+    #Recipe.name.  However, if you are executing a task that appears
+    #as 'server_display' in the dropdown menu, it is actually named 'server' in the 
+    #recipes and in the database.
+    if(task_name!="server_display")
+      recipe_to_run=Recipe.find_by_name(task_name) 
+    else 
+      recipe_to_run = Recipe.find_by_name("server")
+      if !recipe_to_run.role_needed then
+      #Check if the recipe chosen to run on this deployment is a predefined recipe
+      #that does not require a parameter, i.e. a specific ip_address list.
+      #check to see that current_stage has all roles needed for the recipes it has,
+      #otherwise propagate them.
+      recipe_types = recipe_to_run.server_types  #aggregating the server_types for all recipes in this stage
+      recipe_types.each{|t| 
+      if !current_stage.roles.map{|r|r.name}.include?(t.name)then
+          
+              #propagate a role for every host that fits type t:
+              t.hosts.each do |h|
+                      if(t.name=="db")
+                        @role = current_stage.roles.build({"no_release"=>"0", "name"=>t.name, "primary"=>"1", "ssh_port"=>"", "no_symlink"=>"0", "host_id"=>h.id})
+                      else
+                        @role = current_stage.roles.build({"no_release"=>"0", "name"=>t.name, "primary"=>"0", "ssh_port"=>"", "no_symlink"=>"0", "host_id"=>h.id})
+                      end
+                      if(!@role.save)
+                        RAILS_DEFAULT_LOGGER.error("could not save the given role #{t.name} on host #{h.name}");
+                      end
+              end
+           
+           end
+      
+      }
+    end    
+    end
+  end
+  
+  
+  
   def ensure_deployment_possible
-    if current_stage.deployment_possible?
+    if current_stage.deployment_possible? then
+        
         true
     else
       if (current_stage.deployment_problems.include?(:roles)&& 
         current_stage.deployment_problems.size==1) then
-      
+        
         role_necessary=current_stage.recipes.find(:all, :select=>:role_needed)
         
         if role_necessary.map{|r|r.role_needed}.include?(false)
@@ -117,9 +162,9 @@ class DeploymentsController < ApplicationController
               
               t.hosts.each do |h|
                 if(t.name=="db")
-                @role = current_stage.roles.build({"no_release"=>"0", "name"=>t.name, "primary"=>"1", "ssh_port"=>"", "no_symlink"=>"0", "host_id"=>h.id})
+                  @role = current_stage.roles.build({"no_release"=>"0", "name"=>t.name, "primary"=>"1", "ssh_port"=>"", "no_symlink"=>"0", "host_id"=>h.id})
                 else
-                @role = current_stage.roles.build({"no_release"=>"0", "name"=>t.name, "primary"=>"0", "ssh_port"=>"", "no_symlink"=>"0", "host_id"=>h.id})
+                  @role = current_stage.roles.build({"no_release"=>"0", "name"=>t.name, "primary"=>"0", "ssh_port"=>"", "no_symlink"=>"0", "host_id"=>h.id})
                 end
                 if(!@role.save)
                   puts "could not save the given role #{t.name} on host #{h.name}"

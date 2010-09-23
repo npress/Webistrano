@@ -9,55 +9,55 @@ class AddDefaultRecipes < ActiveRecord::Migration
     
     Recipe.create(:name=>"server", 
     :description=>"Display a quick status of the server listed.",
-    :body=> "task :server_display, :roles => :all do \n run \"echo \'Displaying the status of the server.\'\n end" , 
+    :body=> "task :server_display, :roles => :all do \n run \"echo \'Displaying the status of the server.\'\"\n end" , 
     :version=>1, 
     :role_needed=>false)
     
     Recipe.create(:name=>"serverreport", 
     :description=>"If no <ip_list> is specified, all servers will be displayed. Display a deep report of server settings.",
-    :body=> "task :serverreport, :roles => :all do\n puts \"Displaying deep report of server settings.\"\n end" , 
+    :body=> "task :serverreport, :roles => :all do\n run \"echo \'Displaying deep report of server settings.\'\"\n end" , 
     :version=>1, 
     :role_needed=>false)
     
     Recipe.create(:name=>"restartserver", 
     :description=>"Reboot all the game servers.  If no <ip_list> is specified, all game servers will be rebooted.",
-    :body=> "task :restartserver, :roles => [:game, :web, :db] do\n puts \"Rebooting game servers.\"\n end" , 
+    :body=> "task :restartserver, :roles => [:game, :web, :db] do\n run \"echo \'Rebooting game servers.\'\"\n end" , 
     :version=>1, 
     :role_needed=>false)
     
     Recipe.create(:name=>"restartwebserver", 
     :description=>"Reboot all web servers.  If no <ip_list>, all servers will be displayed.",
-    :body=> "task :restartwebserver, :roles => :web do\n puts \"Rebooting game servers.\"\n end" , 
+    :body=> "task :restartwebserver, :roles => :web do\n run \"echo \'Rebooting game servers.\'\"\n end" , 
     :version=>1, 
     :role_needed=>false)
     
     Recipe.create(:name=>"db", 
     :description=>"Display a report of database server listed.  List of dbs, and size of dbs.  If no <ip_list>, all db servers will be displayed.",
-    :body=> "task :db, :roles => :db do\n puts \"Displaying report of db servers.\"\n end" , 
+    :body=> "task :db, :roles => :db do\n run \"echo \'Displaying report of db servers.\'\"\n end" , 
     :version=>1, 
     :role_needed=>false)
     
     Recipe.create(:name=>"dbbackup", 
     :description=>"On the database servers, using script ~/backups/auto_backup_mysql.sh, back up the database in ~backups/mysql_backups/latest/ and a copy in ~/backups/deploymentbackup/",
-    :body=> "task :dbbackup, :roles => :db do \nputs \"Reading ~/backups/auto_backup_mysql.sh.\"\nputs \"backing up the database in ~backups/mysql_backups/latest/\"\nputs \"copying into ~/backups/deploymentbackup/\" \n end" , 
+    :body=> "task :dbbackup, :roles => :db do \nrun \"echo \'Reading ~/backups/auto_backup_mysql.sh.\' ;echo \'backing up the database in ~backups/mysql_backups/latest/\'; echo \'copying into ~/backups/deploymentbackup/\'\" \n end" , 
     :version=>1, 
     :role_needed=>false)
     
     Recipe.create(:name=>"statusslave", 
     :description=>"Display the status of the MySQL replication slaves and information about their configuration and last error.",
-    :body=> "task :statusslave, :roles => :db do\n puts \"Displaying the status of the MySQL replication slaves and information.\" \n end", 
+    :body=> "task :statusslave, :roles => :db do\n run \"echo \'Displaying the status of the MySQL replication slaves and information.\'\" \n end", 
     :version=>1, 
     :role_needed=>false)
     
     Recipe.create(:name=>"startslave", 
     :description=>"If no <slave> is specified, it will apply on all slaves if <slave> is specified, it will apply to the slave <slave>. Start the replication process on the slave server",
-    :body=> "task :startslave, :roles => :db do\n puts \"Restarting replication process on the slave server(s)\"\n end" , 
+    :body=> "task :startslave, :roles => :db do\n run \"echo \'Restarting replication process on the slave server(s)\'\"\n end" , 
     :version=>1, 
     :role_needed=>false)
     
     Recipe.create(:name =>"stopslave", 
                   :description =>"If no <slave> is specified, it will apply on all slaves. If <slave> is specified it will apply to the slave <slave>. Start the replication process on the slave server.",
-                  :body => "task :stopslave, :roles => :db do \nputs \"Restarting replication process on the slave server(s) \" \n end" , 
+                  :body => "task :stopslave, :roles => :db do \nrun \"echo \'Restarting replication process on the slave server(s) \'\" \n end" , 
                   :version =>1, 
                   :role_needed=>false)
     
@@ -67,14 +67,14 @@ class AddDefaultRecipes < ActiveRecord::Migration
     "Retrieve the commented replication configuration from the file (log file and position), stop "+
     "the replication, import the databases backup, reconfigure the replication with the new "+
     "configuration.  Restart the slave.",
-    :body=> "task :stopslave, :roles => :db do \nputs \"Restarting replication process on the slave server(s) \" \n end" , 
+    :body=> "task :fillslave, :roles => :db do \nrun \"echo \'Restarting replication process on the slave server(s) \'\" \n end" , 
     :version=>1, 
     :role_needed=>true)
     
     Recipe.create(:name=>"cdndeploy", 
     :description=>"Upload the files from ~releases_storage/client_stage or ~/releases_storage/client_prod to the CDN.",
-    :body=> "task :cdndeploy, :roles => :content do \nputs \"Uploading the files from ~releases_storage/client_stage or "+
-    "~/releases_storage/client_prod to the CDN\"\n end", 
+    :body=> "task :cdndeploy, :roles => :content do \nrun \"echo \'Uploading the files from ~releases_storage/client_stage or "+
+    "~/releases_storage/client_prod to the CDN\'\"\n end", 
     :version=>1, 
     :role_needed=>false)
     

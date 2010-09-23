@@ -1,26 +1,99 @@
+
 <% if @recipes.empty? %>
   No recipes specified to run on this host.
 <% else %>
   <table class="sortable">
     <tr>
-      <th>Recipe</th>
-      <th>Stage</th>
-      
-    </tr>
-    <% for recipe in @recipes %>
-      <tr class="<%= cycle :even, :odd, :name => 'stages' %>">
-        <td valign="top">
+      <th width="1%">Uses</th>
+      <th width="28%">Recipe</th>
+      <th width="1%">on</th>
+      <th width="38%">Stage</th>
+    </tr> 
+	<% for recipe in @recipes %>
+	    <% recipes=@recipes.map{|x| x.id}.inspect %>
+		<tr class="<%= cycle :even, :odd, :name => 'recipes'  %>">
+            <td valign ="top"><input type="checkbox"  value="<%=h recipe.id %>" name="host[recipe_ids][]" id="host_recipe_id_<%=h recipe.id %>" <%= @stages[0].recipes.include?(recipe) ? 'checked="checked"' : '' %>/></td>
+            <td valign="top">
         	<%=link_to h(recipe.name),  recipe_path(recipe) %>
-            <br />
-        </td>
-		<td valign="top">
-          <% for stage in @stages %>
-            <%=link_to h(stage.name), project_stage_path(stage.project, stage) %>
-            <br />
-          <% end %>
-        </td>
+            
+            </td>
+			<% if 'commented' == 1%>
+			<td valign="top">
+				
+				<input type="submit" value="Run"   id="commit_<%= recipe.id %>" name="commit_<%= recipe.id %>">
+			    
+			</td>
+			<% end %>
+		
+	    <% if recipe==@recipes[0] %>
+		
+		  <td valign="top">
+			  	<% for stage in @stages %>
+				<% stage_recipes = stage.recipes.map{|i|i.id}.inspect %>
+			     <input type="radio" value="<%=h stage.id %>" onClick="updateChecks(<%= recipes %> , <%= stage_recipes %> )" name="stage" id="stage_ids_<%=h stage.id %>" <%= (@stages[0]== stage) ? 'checked="checked"' : '' %>/>
+	            <% end %>
+		  </td>
+          <td valign="top">
+			  <% for stage in @stages %>
+			    <%=link_to h(stage.name), project_stage_path(stage.project, stage) %>
+				<br/>
+	          <% end %>
+		  </td>
+        <% end %>
       </tr>
 	  
     <% end %>
 	</table>
+	<br />
+      
 <% end %>
+
+<script type="text/javascript">
+	
+
+	Event.observe(window, 'load', function(event){
+		
+		var recipes_= <%= recipes %>;
+		//setSubmitButtons(recipes_);
+		
+	});
+	
+	
+	/*function setSubmitButtons(host_recipes){
+		
+		for(var h=0; h<host_recipes.length; h++)
+        {
+			recipe_box = $("host_recipe_id_"+ host_recipes[h]);
+			if (recipe_box != null) {
+				submit_button = $("commit_"+host_recipes[h]);
+				if (recipe_box.checked) {
+					submit_button.show();
+				}
+				else {
+					submit_button.hide();
+				}
+			}
+			
+		}
+		
+	}*/
+	
+	function updateChecks(host_recipes, ary_of_recipes) {
+		for(var h=0; h<host_recipes.length; h++)
+        {
+			obj = $("host_recipe_id_"+ host_recipes[h]);
+			if (obj != null) {
+				obj.checked = false;
+			}
+		}
+		for(var m=0; m<ary_of_recipes.length; m++)
+		{
+			obj = $("host_recipe_id_" + ary_of_recipes[m]);
+			if (obj != null) {
+				obj.checked = true;
+			}
+		}
+		
+	}
+</script>
+	

@@ -118,6 +118,16 @@ class Stage < ActiveRecord::Base
     self.name.underscore.gsub(/[^a-zA-Z0-9\-\_]/, '_')
   end
   
+  # returns the name of the task from the task body
+  def list_task 
+    
+    d = Deployment.new
+    d.stage = self
+    deployer = Webistrano::Deployer.new(d)
+    return deployer.list_tasks.collect { |t| {:name => t.fully_qualified_name, :description => t.description} }.delete_if{|t| t[:name] == 'shell' || t[:name] == 'invoke'}
+  
+  end
+  
   # returns a lists of all availabe tasks for this stage
   def list_tasks 
     @task_error = nil

@@ -16,7 +16,7 @@ class HostsController < ApplicationController
   # GET /hosts/1.xml
   def show
     @host = Host.find(params[:id])
-    @stages = @host.stages.uniq.sort_by{|x| x.project.name}
+    @stages = @host.stages.uniq.sort_by{|x| x.name}
     @server_types = @host.server_types
     @recipes = Array.new
     @server_types.each{|t| @recipes.concat(t.recipes)}

@@ -28,10 +28,10 @@ Let us go and make our visit.',
   :smtp_settings => {
     :address  => "localhost",
     :port  => 25, 
-    #:domain  => "exchange.zerolag.com",
-    #:user_name  => "nema.press@sleepygiant.com",
-    #:password  => "press@SGE",
-    #:authentication  => :login
+#    :domain  => "exchange.zerolag.com",
+#    :user_name  => "nema.press@sleepygiant.com",
+#    :password  => "",
+#    :authentication  => :login
   },
   
   # Sender address for Webistrano emails
